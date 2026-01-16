@@ -208,3 +208,7 @@ __marimo__/
 
 # Database files
 *.db
+
+#Raw json data
+raw_data/monthly/*.json
+raw_data/*.json

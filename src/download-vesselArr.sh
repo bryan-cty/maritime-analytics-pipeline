@@ -54,34 +54,29 @@ while [ $current -le $end_sec ]; do
         -H "ApiKey: ${OCEANS_X_API_KEY}")
     
     if echo "$response" | jq empty 2>/dev/null; then
-        record_count=$(echo "$response" | jq 'length' 2>/dev/null || echo "0")
+    record_count=$(echo "$response" | jq 'length' 2>/dev/null || echo "0")
+
+    if [ "$record_count" != "null" ] && [ "$record_count" -gt 0 ]; then
         
-        if [ "$record_count" != "null" ] && [ "$record_count" -gt 0 ]; then
-            if [ "$first_record" = true ]; then
-                echo "$response" | jq -c '.[]' >> "$output_file"
-                first_record=false
-            else
-                echo "$response" | jq -c '.[]' | sed 's/^/,/' >> "$output_file"
-            fi
-            
-            total_records=$((total_records + record_count))
-            echo "✓ $record_count records"
+        if [ "$first_record" = true ]; then
+            # First batch: just write objects
+            echo "$response" | jq -c '.[]' >> "$output_file"
+            first_record=false
         else
-            echo "⊘ No data"
+            # Insert comma at end of file before appending
+            sed -i '$ s/$/,/' "$output_file"
+            echo "$response" | jq -c '.[]' >> "$output_file"
         fi
+        
+        total_records=$((total_records + record_count))
+        echo "✓ $record_count records"
     else
-        echo "✗ Failed"
-        echo "$response" > "raw_data/arrivals/error_${date_str}.txt"
+        echo "⊘ No data"
     fi
-    
-    current=$((current + 86400))
-    
-    if [ $((current_day % 10)) -eq 0 ]; then
-        echo "  → Progress: $current_day/$total_days days, $total_records records so far"
-    fi
-    
-    sleep 0.5
-done
+else
+    echo "✗ Failed"
+    echo "$response" > "raw_data/arrivals/error_${date_str}.txt"
+fi
 
 echo "]" >> "$output_file"
 

@@ -209,6 +209,14 @@ __marimo__/
 # Database files
 *.db
 
-#Raw json data
+# Raw json data
+raw_data/arrivals/*.json
+raw_data/positions/*.json
+raw_data/departures/*.json
 raw_data/monthly/*.json
 raw_data/*.json
+
+# Log files
+logs/*.log
+logs/script/*.log
+logs/pipeline/*.log

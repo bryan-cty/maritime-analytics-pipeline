@@ -40,7 +40,6 @@ output_file="raw_data/arrivals/arrivals_${START_DATE}_${END_DATE}.json"
 echo "[" > "$output_file"
 first_record=true
 
-# Loop through dates
 current=$start_sec
 while [ $current -le $end_sec ]; do
     date_str=$(date -d "@$current" +%Y-%m-%d)
@@ -54,29 +53,32 @@ while [ $current -le $end_sec ]; do
         -H "ApiKey: ${OCEANS_X_API_KEY}")
     
     if echo "$response" | jq empty 2>/dev/null; then
-    record_count=$(echo "$response" | jq 'length' 2>/dev/null || echo "0")
+        record_count=$(echo "$response" | jq 'length' 2>/dev/null || echo "0")
 
-    if [ "$record_count" != "null" ] && [ "$record_count" -gt 0 ]; then
-        
-        if [ "$first_record" = true ]; then
-            # First batch: just write objects
-            echo "$response" | jq -c '.[]' >> "$output_file"
-            first_record=false
+        if [ "$record_count" != "null" ] && [ "$record_count" -gt 0 ]; then
+            
+            if [ "$first_record" = true ]; then
+                echo "$response" | jq -c '.[]' >> "$output_file"
+                first_record=false
+            else
+                sed -i '$ s/$/,/' "$output_file"
+                echo "$response" | jq -c '.[]' >> "$output_file"
+            fi
+            
+            total_records=$((total_records + record_count))
+            echo "✓ $record_count records"
         else
-            # Insert comma at end of file before appending
-            sed -i '$ s/$/,/' "$output_file"
-            echo "$response" | jq -c '.[]' >> "$output_file"
+            echo "⊘ No data"
         fi
-        
-        total_records=$((total_records + record_count))
-        echo "✓ $record_count records"
     else
-        echo "⊘ No data"
+        echo "✗ Failed"
+        echo "$response" > "raw_data/arrivals/error_${date_str}.txt"
     fi
-else
-    echo "✗ Failed"
-    echo "$response" > "raw_data/arrivals/error_${date_str}.txt"
-fi
+
+    current=$((current + 86400))
+    sleep 0.5
+
+done
 
 echo "]" >> "$output_file"
 

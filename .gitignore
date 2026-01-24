@@ -210,13 +210,7 @@ __marimo__/
 *.db
 
 # Raw json data
-raw_data/arrivals/*.json
-raw_data/positions/*.json
-raw_data/departures/*.json
-raw_data/monthly/*.json
-raw_data/*.json
+raw_data/*
 
 # Log files
-logs/*.log
-logs/script/*.log
-logs/pipeline/*.log
+logs/*

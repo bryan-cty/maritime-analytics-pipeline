@@ -1,0 +1,14 @@
+MARITIME DATA EXPLORATION SUMMARY
+======================================================================
+Generated: 2026-01-24 07:16:56
+
+DATASET SIZES
+----------------------------------------------------------------------
+Arrivals: 141923 records
+Departures: 122854 records
+Positions: 1246 records
+
+UNIQUE VESSELS
+----------------------------------------------------------------------
+Unique vessels in arrivals: 19287
+Unique vessels in positions: 1146

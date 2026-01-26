@@ -1,5 +1,5 @@
-# maritime-analytics-pipeline
-A repository for my maritime analytics pipeline! 🚢⛴️📊
+# Maritime Analytics Pipeline
+A repository for my lightweight maritime analytics pipeline! 🚢⛴️📊
 
 ---
 ![high-level flow](./docs/Process-Flow.jpg)

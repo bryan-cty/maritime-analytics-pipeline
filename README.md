@@ -2,7 +2,7 @@
 A repository for my maritime analytics pipeline! 🚢⛴️📊
 
 ---
-![high-level flow]()
+![high-level flow](./docs/Process-Flow.jpg)
 
 # Entity Relationship Diagram
 ![entity relationship diagram](./docs/RelationshipDiagram.png)

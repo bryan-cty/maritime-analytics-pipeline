@@ -68,9 +68,85 @@ def extract_location():
     print(f"  ✓ Loaded {len(all_data)} arrival records")
     return all_data
 
-# Transform
+# Transform: Clean and prepare data (continuing from jupyter data discovery step)
+
+def transform_vessels(positions_data):
+    """Extract vessel master data from positions"""
+    print("Transforming vessels data...")
+    
+    vessels = []
+    processed_imos = set()
+
+    for record in positions_data:
+        particulars = record.get('vesselParticulars', {})
+        imo = particulars.get('imoNumber')
+    
+        if not imo or imo in processed_imos:
+            continue
+    
+        processed_imos.add(imo)
+        
+        # Estimate DWT if missing/wrong
+        vessel_type = particulars.get('vesselType', '')
+        gross_tonnage = particulars.get('grossTonnage', 0)
+        deadweight = particulars.get('deadweight', 0)
+        
+        # DWT estimation ratios by vessel type (DWT = Deadweight Tonnage (Max Weight))
+        dwt_ratios = {'BC': 1.7, 'OT': 1.8, 'CT': 0.9} # OT = Oil Tanker CT = Chemical Tanker BC = Bulk Carrier
+        estimated_dwt = int(gross_tonnage * dwt_ratios.get(vessel_type, 1.5))
+        
+        vessels.append({
+            'imo_number': imo,
+            'vessel_name': particulars.get('vesselName'),
+            'call_sign': particulars.get('callSign'),
+            'mmsi_number': particulars.get('mmsiNumber'),
+            'flag': particulars.get('flag'),
+            'vessel_type': vessel_type,
+            'vessel_length': particulars.get('vesselLength'),
+            'vessel_breadth': particulars.get('vesselBreadth'),
+            'gross_tonnage': gross_tonnage,
+            'net_tonnage': particulars.get('netTonnage'),
+            'deadweight': deadweight,
+            'estimated_dwt': estimated_dwt,
+            'year_built': particulars.get('yearBuilt'),
+            'last_updated': datetime.now().isoformat()
+        })
+    
+    print(f"  ✓ Extracted {len(vessels)} unique vessels")
+    return vessels
+
+def transform_arrivals(arrivals_data):
+    """Extract arrivals data from arrivals"""
+    print("Transforming arrivals data...")
+
+    arrivals = []
+
+    for record in arrivals_data:
+        particulars = record.get('vesselParticulars',{})
 
 
+    return
+
+def transform_departures(departures_data):
+    """Extract depatures data from departuress"""
+    print("Transforming departures data...")
+
+    departures = []
+    for record in departures_data:
+        particulars = record.get('vesselParticulars', {})
+    return
+
+def transform_locations(location_codes_data):
+    """Extract location codes data from locations"""
+    print("Transforming location code data...")
+
+    location_codes = []
+
+    for record in location_codes_data:
+        locationDetails = record.get('',{})
+
+    return
 
 # Load
+
 

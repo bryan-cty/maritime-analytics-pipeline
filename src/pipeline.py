@@ -15,6 +15,38 @@ def get_conn():
     conn.execute("PRAGMA foreign_key=ON;")
     return conn
 
+# Vessel type code mapping
+VESSEL_TYPE_NAMES = {
+    'BC': 'Bulk Carrier',
+    'CT': 'Container Ship',
+    'OT': 'Oil Tanker',
+    'GT': 'Gas Tanker',
+    'CC': 'Chemical Carrier',
+    'GC': 'General Cargo',
+    'RR': 'Ro-Ro Cargo',
+    'RF': 'Refrigerated Cargo',
+    'PC': 'Passenger',
+    'PF': 'Passenger/Ferry',
+    'YC': 'Yacht',
+    'TU': 'Tug',
+    'OF': 'Offshore Vessel',
+    'SV': 'Service Vessel',
+    'FB': 'Fishing Vessel',
+    'DR': 'Dredger',
+}
+
+def estimate_dwt(vessel_type, gross_tonnage):
+    """Estimate DWT from gross tonnage when missing"""
+    ratios = {
+        'BC': 1.7, 'OT': 1.8, 'GT': 1.5, 'CC': 1.4,
+        'CT': 0.9, 'GC': 1.3, 'RR': 0.7, 'SV': 0.5
+    }
+    if gross_tonnage == 0:
+        return 0
+    return int(gross_tonnage * ratios.get(vessel_type, 1.5))
+
+
+
 # Extract
 def extract_arrivals():
     """ Load arrivals from json files """

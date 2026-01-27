@@ -1,0 +1,61 @@
+# Examples of JSON Data
+
+## Arrivals Data
+{
+  "vesselParticulars": {
+    "vesselName": "SUKSES ABADI 02",
+    "callSign": "YB3679",
+    "imoNumber": "5630168",
+    "flag": "ID"
+  },
+  "arrivedTime": "2025-01-23 00:09:00",
+  "locationFrom": "SEAS",
+  "locationTo": "WJFP"
+}
+
+## Departures Data
+{
+  "vesselParticulars": {
+    "vesselName": "AVILA",
+    "callSign": "V7A7504",
+    "imoNumber": "9492098",
+    "flag": "MH"
+  },
+  "departedTime": "2025-01-23 00:45:00"
+}
+
+## Location Codes Data
+{
+  "timeStamp": "2024-05-27 21:32:55.313",
+  "locationCode": "ABBL1",
+  "locationDescription": "BREAK BULK LOT1(0319C)"
+}
+
+## Vessel Positions Data
+{
+  "vesselParticulars": {
+    "vesselName": "ICON SOPHIA",
+    "callSign": "9MQS3",
+    "imoNumber": "9697181",
+    "flag": "MY",
+    "vesselLength": 60,
+    "vesselBreadth": 15,
+    "vesselDepth": 0,
+    "vesselType": "SV",
+    "grossTonnage": 1674,
+    "netTonnage": 0,
+    "deadweight": 0,
+    "mmsiNumber": "533180057",
+    "yearBuilt": "0"
+  },
+  "latitude": 0.0258057114435,
+  "longitude": 1.81556773949,
+  "latitudeDegrees": 1.47855835305,
+  "longitudeDegrees": 104.024368893,
+  "speed": 0,
+  "course": 0,
+  "heading": 90,
+  "dimA": 13,
+  "dimB": 46,
+  "timeStamp": "2026-01-23 16:48:31"
+}

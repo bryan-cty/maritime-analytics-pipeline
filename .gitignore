@@ -208,6 +208,7 @@ __marimo__/
 
 # Database files
 *.db
+*.db-journal
 
 # Raw json data
 raw_data/*
